@@ -121,23 +121,63 @@ def update():
             print("文件不存在")
             break
 def stusort():
-    pass
+    while True:
+        if os.path.exists(filename):
+            with open(filename,'r',encoding='utf-8') as rfile:
+                readstrs=rfile.readlines()
+            if readstrs:
+                stulist=[]
+                for item in readstrs:
+                    stu=dict(eval(item))
+                    stulist.append(stu)
+                stulist.sort(key= lambda x:int(x['scorce']),reverse=False)
+                # print(stulist)
+                showmessage(stulist)
+                result = input('是否继续选择y/n:')
+                if result == 'y' or result == 'Y':
+                    continue
+                else:
+                    break
+            else:
+                print('文件为空')
+                break
+        else:
+            print('文件不存在')
+            break
 def stucount():
-    pass
+    if os.path.exists(filename):
+        with open(filename,'r',encoding='utf-8') as rfile:
+            stulist=rfile.readlines()
+            if stulist:
+                print(f'一共有{len(stulist)}个学生')
+                print('一个有{}个学生'.format(len(stulist)))
+            else:
+                print('里面没有学生')
+    else:
+        print("文件不存在")
 def showmessage(list):
     if len(list):
         stutitle = '{:^6}\t{:^6}\t{:^6}\t'
         title = stutitle.format('ID', '姓名', '分数')
         print(title)
-        for item in list:
-            stu=dict(eval(item))
+        for stu in list:
+            # stu=dict(eval(item))
             studate = '{:^6}\t{:^6}\t{:^6}\t'
             print(studate.format(stu.get('id'),stu.get('name'),stu.get('scorce')))
     else:
         print('未查询到学生的信息')
     return
 def showstu():
-    pass
+    if os.path.exists(filename):
+        with open(filename,'r',encoding='utf-8') as rflie:
+            stulist=rflie.readlines()
+            stus=[]
+            for item in stulist:
+                stu=dict(eval(item))
+                stus.append(stu)
+            showmessage(stus)
+    else:
+        print('不存在文件')
 
 def find():
     while True:
@@ -159,12 +199,12 @@ def find():
                     for item in stulist:
                         stu=dict(eval(item))
                         if stu['name']==name:
-                            findlist.append(item)
+                            findlist.append(stu)
                 elif id:
                     for item in stulist:
                         stu = dict(eval(item))
                         if stu['id'] == id:
-                            findlist.append(item)
+                            findlist.append(stu)
                 # print(findlist)
                 showmessage(findlist)
         else:
